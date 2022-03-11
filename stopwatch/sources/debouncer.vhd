@@ -22,7 +22,7 @@ end entity;
 
 architecture FULL of DEBOUNCER is
 
-    signal pen_cntr_ovf : std_logic;
+    signal pen_cntr_ovf : std_logic := '0';
 
 begin
 

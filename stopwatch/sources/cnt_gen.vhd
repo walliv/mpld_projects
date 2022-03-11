@@ -23,7 +23,7 @@ architecture FULL of CNT_GEN is
     -- implicit overflow value by which the counter automatically overflows because of its length
     constant OVF_VAL : unsigned(LENGTH-1 downto 0) := (others => '1');
 
-    signal cnt_int : unsigned(LENGTH-1 downto 0);
+    signal cnt_int : unsigned(LENGTH-1 downto 0) := (others => '0');
 
 begin
 
