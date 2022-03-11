@@ -7,6 +7,10 @@ use IEEE.numeric_std.all;
 
 entity DEBOUNCER is
 
+    generic (
+        -- maximum is 15 :))))
+        DEB_PERIOD : positive := 5);
+
     port (
         CLK     : in  std_logic;
         RST     : in  std_logic;
@@ -26,7 +30,7 @@ begin
     -- 10ms)
     pending_cntr_i : entity work.CNT_GEN
         generic map (
-            MAX_VAL => "0101",
+            MAX_VAL => DEB_PERIOD,
             LENGTH  => 4)
         port map (
             CLK     => CLK,
