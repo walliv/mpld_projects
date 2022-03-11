@@ -25,8 +25,8 @@ architecture FULL of SYNC_REG is
     attribute ASYNC_REG of sig_out_int : signal is "TRUE";
 
     attribute SHREG_EXTRACT                : string;
-    attribute SHREG_EXTRACT of sig_reg     : signal is "TRUE";
-    attribute SHREG_EXTRACT of sig_out_int : signal is "TRUE";
+    attribute SHREG_EXTRACT of sig_reg     : signal is "NO";
+    attribute SHREG_EXTRACT of sig_out_int : signal is "NO";
 
 begin
 
