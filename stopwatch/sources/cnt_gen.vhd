@@ -20,6 +20,7 @@ end entity;
 
 architecture FULL of CNT_GEN is
 
+	-- implicit overflow value by which the counter automatically overflows because of its length
 	constant OVF_VAL : unsigned(LENGTH-1 downto 0) := (others => '1');
 
 	signal cnt_int : unsigned(LENGTH-1 downto 0);
@@ -58,12 +59,14 @@ begin
 					cnt_int <= (others => '0');
 				elsif (EN = '1') then
 
+					-- resets counter when MAX_VAL has been reached
 					if (cnt_int = MAX_VAL) then
 						cnt_int <= (others => '0');
 					else
 						cnt_int <= cnt_int + 1;
 					end if;
 
+					-- asserts OVF output when counter is about to reach the MAX_VAL
 					if (cnt_int = (MAX_VAL - 1)) then
 						OVF <= '1';
 					end if;
