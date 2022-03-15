@@ -8,20 +8,20 @@ end btn_in_tb;
 architecture Behavioral of btn_in_tb is
 ----------------------------------------------------------------------------------
 
-  COMPONENT btn_in
+  COMPONENT BTN_MGMT
   GENERIC(
     DEB_PERIOD                  : POSITIVE := 3
   );
   PORT(
     clk                         : IN  STD_LOGIC;
     ce                          : IN  STD_LOGIC;
-    btn                         : IN  STD_LOGIC;
+    btn_in                      : IN  STD_LOGIC;
     btn_debounced               : OUT STD_LOGIC;
-    btn_egde_pos                : OUT STD_LOGIC;
-    btn_egde_neg                : OUT STD_LOGIC;
-    btn_egde_any                : OUT STD_LOGIC
+    btn_edge_pos                : OUT STD_LOGIC;
+    btn_edge_neg                : OUT STD_LOGIC;
+    btn_edge_any                : OUT STD_LOGIC
   );
-  END COMPONENT btn_in;
+  END COMPONENT;
 
   --------------------------------------------------------------------------------
 
@@ -45,11 +45,11 @@ architecture Behavioral of btn_in_tb is
 
   SIGNAL clk                    : STD_LOGIC := '0';
   SIGNAL ce                     : STD_LOGIC;
-  SIGNAL btn                    : STD_LOGIC := '0';
+  SIGNAL btn_in                 : STD_LOGIC := '0';
   SIGNAL btn_debounced          : STD_LOGIC;
-  SIGNAL btn_egde_pos           : STD_LOGIC;
-  SIGNAL btn_egde_neg           : STD_LOGIC;
-  SIGNAL btn_egde_any           : STD_LOGIC;
+  SIGNAL btn_edge_pos           : STD_LOGIC;
+  SIGNAL btn_edge_neg           : STD_LOGIC;
+  SIGNAL btn_edge_any           : STD_LOGIC;
 
 ----------------------------------------------------------------------------------
 BEGIN
@@ -78,18 +78,18 @@ BEGIN
 
   --------------------------------------------------------------------------------
 
-  btn_in_i : btn_in
+  btn_in_i : BTN_MGMT
   GENERIC MAP(
     DEB_PERIOD                  => 5
   )
   PORT MAP(
     clk                         => clk,
     ce                          => ce,
-    btn                         => btn,
+    btn_in                      => btn_in,
     btn_debounced               => btn_debounced,
-    btn_egde_pos                => btn_egde_pos,
-    btn_egde_neg                => btn_egde_neg,
-    btn_egde_any                => btn_egde_any
+    btn_edge_pos                => btn_edge_pos,
+    btn_edge_neg                => btn_edge_neg,
+    btn_edge_any                => btn_edge_any
   );
 
   --------------------------------------------------------------------------------
@@ -99,20 +99,20 @@ BEGIN
     ------------------------------------------------------------------------------
     -- rising edge of the btn signal
     ------------------------------------------------------------------------------
-    btn <= '0'; WAIT FOR clk_period *   8;
-    btn <= '1'; WAIT FOR clk_period *  10;
-    btn <= '0'; WAIT FOR clk_period *  10;
-    btn <= '1'; WAIT FOR clk_period *  20;
-    btn <= '0'; WAIT FOR clk_period *  20;
-    btn <= '1'; WAIT FOR clk_period * 200;
+    btn_in <= '0'; WAIT FOR clk_period *   8;
+    btn_in <= '1'; WAIT FOR clk_period *  10;
+    btn_in <= '0'; WAIT FOR clk_period *  10;
+    btn_in <= '1'; WAIT FOR clk_period *  20;
+    btn_in <= '0'; WAIT FOR clk_period *  20;
+    btn_in <= '1'; WAIT FOR clk_period * 200;
     ------------------------------------------------------------------------------
     -- falling edge of the btn signal
     ------------------------------------------------------------------------------
-    btn <= '0'; WAIT FOR clk_period *   8;
-    btn <= '1'; WAIT FOR clk_period *  10;
-    btn <= '0'; WAIT FOR clk_period *  10;
-    btn <= '1'; WAIT FOR clk_period *  20;
-    btn <= '0'; WAIT FOR clk_period * 200;
+    btn_in <= '0'; WAIT FOR clk_period *   8;
+    btn_in <= '1'; WAIT FOR clk_period *  10;
+    btn_in <= '0'; WAIT FOR clk_period *  10;
+    btn_in <= '1'; WAIT FOR clk_period *  20;
+    btn_in <= '0'; WAIT FOR clk_period * 200;
     ------------------------------------------------------------------------------
     -- end of simulation
     ------------------------------------------------------------------------------
