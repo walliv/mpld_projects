@@ -43,13 +43,13 @@ architecture Structural of rp_top is
     signal cnt_2 : std_logic_vector(3 downto 0);
     signal cnt_3 : std_logic_vector(3 downto 0);
 
-    signal ce_100hz : std_logic;
-    signal cnt_reset : std_logic;
-    signal cnt_enable : std_logic;
-    signal disp_enable : std_logic;
+    signal ce_100hz     : std_logic;
+    signal cnt_reset    : std_logic;
+    signal cnt_enable   : std_logic;
+    signal disp_enable  : std_logic;
 
-    signal btn_lap : std_logic;
-    signal btn_start : std_logic;
+    signal btn_lap      : std_logic;
+    signal btn_start    : std_logic;
 
     signal
 ----------------------------------------------------------------------------------
@@ -74,14 +74,15 @@ begin
 
     seg_disp_driver_i : seg_disp_driver
         port map(
+            clk        => CLK,
             dig_1_i    => cnt_3_seg,
             dig_2_i    => cnt_2_seg,
             dig_3_i    => cnt_1_seg,
             dig_4_i    => cnt_0_seg,
             dp_i       => "0000",
             dots_i     => "011",
-            disp_seg_o => disp_seg_o,
-            disp_dig_o => disp_dig_o
+            disp_seg_o => DISP_SEG_O,
+            disp_dig_o => DISP_DIG_O
             );
 
     display_enable_p : process (CLK) is
