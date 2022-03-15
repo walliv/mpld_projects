@@ -33,6 +33,11 @@ architecture Structural of rp_top is
 
     ------------------------------------------------------------------------------
 
+    signal cnt_0_seg : std_logic_vector(3 downto 0);
+    signal cnt_1_seg : std_logic_vector(3 downto 0);
+    signal cnt_2_seg : std_logic_vector(3 downto 0);
+    signal cnt_3_seg : std_logic_vector(3 downto 0);
+
     signal cnt_0 : std_logic_vector(3 downto 0);
     signal cnt_1 : std_logic_vector(3 downto 0);
     signal cnt_2 : std_logic_vector(3 downto 0);
@@ -69,16 +74,38 @@ begin
 
     seg_disp_driver_i : seg_disp_driver
         port map(
-            clk        => clk,
-            dig_1_i    => cnt_3,
-            dig_2_i    => cnt_2,
-            dig_3_i    => cnt_1,
-            dig_4_i    => cnt_0,
+            dig_1_i    => cnt_3_seg,
+            dig_2_i    => cnt_2_seg,
+            dig_3_i    => cnt_1_seg,
+            dig_4_i    => cnt_0_seg,
             dp_i       => "0000",
             dots_i     => "011",
             disp_seg_o => disp_seg_o,
             disp_dig_o => disp_dig_o
             );
+
+    display_enable_p : process (CLK) is
+    begin
+        if (rising_edge(CLK)) then
+            if (cnt_reset = '1') then
+
+                cnt_0_seg <= (others => '0');
+                cnt_1_seg <= (others => '0');
+                cnt_2_seg <= (others => '0');
+                cnt_3_seg <= (others => '0');
+
+            elsif (disp_enable = '1') then
+
+                cnt_0_seg <= cnt_0;
+                cnt_1_seg <= cnt_1;
+                cnt_2_seg <= cnt_2;
+                cnt_3_seg <= cnt_3;
+                
+            end if;        
+        end if;
+    end process;
+
+    LED_O <= cnt_3 & cnt_2;
 
     --------------------------------------------------------------------------------
     -- clock enable generator
@@ -129,7 +156,6 @@ begin
             RST         => '0',
             CE_100HZ    => ce_100hz,
             CNT_ENABLE  => cnt_enable,
-            DISP_ENABLE => disp_enable,
             CNT_RESET   => cnt_reset,
             CNT_0       => cnt_0,
             CNT_1       => cnt_1,
