@@ -20,9 +20,9 @@ end entity;
 
 architecture FULL of STOPWATCH is
 
-    signal sec_units_ovf : std_logic;
-    signal msec_decimals_ovf : std_logic;
-    signal msec_units_ovf : std_logic;
+    signal sec_units_ovf        : std_logic;
+    signal msec_decimals_ovf    : std_logic;
+    signal msec_units_ovf       : std_logic;
 
 begin
 
@@ -34,6 +34,7 @@ begin
         port map(
             CLK     => CLK,
             RST     => RST or CNT_RESET,
+            EN      => msec_units_ovf and msec_decimals_ovf and sec_units_ovf and CE_100HZ,
             CNT_OUT => CNT_3,
             OVF     => open
         );
@@ -46,6 +47,7 @@ begin
         port map(
             CLK     => CLK,
             RST     => RST or CNT_RESET,
+            EN      => msec_units_ovf and msec_decimals_ovf and CE_100HZ,
             CNT_OUT => CNT_2,
             OVF     => sec_units_ovf
         );
@@ -58,6 +60,7 @@ begin
         port map(
             CLK     => CLK,
             RST     => RST or CNT_RESET,
+            EN      => msec_units_ovf and CE_100HZ,
             CNT_OUT => CNT_1,
             OVF     => msec_decimals_ovf
         );
