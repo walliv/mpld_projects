@@ -33,16 +33,10 @@ begin
         begin
             if (rising_edge(CLK)) then
 
-                OVF <= '0';
-
                 if (RST = '1') then
                     cnt_int <= (others => '0');
                 elsif (EN = '1') then
                     cnt_int <= cnt_int + 1;
-
-                    if (cnt_int = (OVF_VAL - 1)) then
-                        OVF <= '1';
-                    end if;
                 end if;
             end if;
         end process;
@@ -52,8 +46,6 @@ begin
         cnt_p : process (CLK) is
         begin
             if (rising_edge(CLK)) then
-
-                OVF <= '0';
 
                 if (RST = '1') then
                     cnt_int <= (others => '0');
@@ -66,16 +58,12 @@ begin
                         cnt_int <= cnt_int + 1;
                     end if;
 
-                    -- asserts OVF output when counter is about to reach the MAX_VAL
-                    if (cnt_int = (MAX_VAL - 1)) then
-                        OVF <= '1';
-                    end if;
-
                 end if;
             end if;
         end process;
     end generate;
 
+    OVF <= '1' when (cnt_int = MAX_VAL) else '0';
     CNT_OUT <= std_logic_vector(cnt_int);
 
 end architecture;
