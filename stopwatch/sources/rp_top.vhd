@@ -116,7 +116,7 @@ begin
             DIV_FACT => 5000000)
         port map (
             CLK    => CLK,
-            SRST   => '0',
+            SRST   => SW_I(0),
             CE_IN  => '1',
             CE_OUT => ce_100hz);
 
@@ -154,7 +154,7 @@ begin
     stopwatch_i : entity work.STOPWATCH
         port map (
             CLK         => CLK,
-            RST         => '0',
+            RST         => SW_I(0),
             CE_100HZ    => ce_100hz,
             CNT_ENABLE  => cnt_enable,
             CNT_RESET   => cnt_reset,
@@ -169,7 +169,7 @@ begin
     stopwatch_fsm_i : entity work.STOPWATCH_FSM
         port map (
             CLK         => CLK,
-            RST         => '0',
+            RST         => SW_I(0),
             BTN_START   => btn_start,
             BTN_LAP     => btn_lap,
             CNT_RESET   => cnt_reset,
