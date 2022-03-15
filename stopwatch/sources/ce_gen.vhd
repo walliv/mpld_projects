@@ -7,7 +7,7 @@ use IEEE.numeric_std.all;
 
 entity CE_GEN is
     generic(
-        DIV_FACT : positive := 1
+        DIV_FACT : positive := 50
         );
     port(
         CLK    : in  std_logic;
@@ -22,7 +22,7 @@ begin
 
     cnt_gen_i : entity work.CNT_GEN
         generic map(
-            MAX_VAL => DIV_FACT,
+            MAX_VAL => DIV_FACT - 1,
             LENGTH  => 32
             )
         port map(
