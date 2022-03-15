@@ -51,7 +51,6 @@ architecture Structural of rp_top is
     signal btn_lap      : std_logic;
     signal btn_start    : std_logic;
 
-    signal
 ----------------------------------------------------------------------------------
 begin
 ----------------------------------------------------------------------------------
@@ -113,7 +112,7 @@ begin
 
     ce_gen_i : entity work.CE_GEN
         generic map (
-            DIV_FACT => 5000000)
+            DIV_FACT => 500000)
         port map (
             CLK    => CLK,
             SRST   => SW_I(0),
