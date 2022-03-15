@@ -1,6 +1,7 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 ----------------------------------------------------------------------------------
 entity stopwatch_tb is
 end stopwatch_tb;
@@ -13,7 +14,6 @@ architecture Behavioral of stopwatch_tb is
     CLK                         : IN  STD_LOGIC;
     CE_100HZ                    : IN  STD_LOGIC;
     CNT_ENABLE                  : IN  STD_LOGIC;
-    DISP_ENABLE                 : IN  STD_LOGIC;
     CNT_RESET                   : IN  STD_LOGIC;
     CNT_0                       : OUT STD_LOGIC_VECTOR( 3 DOWNTO 0);
     CNT_1                       : OUT STD_LOGIC_VECTOR( 3 DOWNTO 0);
@@ -45,7 +45,6 @@ architecture Behavioral of stopwatch_tb is
   SIGNAL clk                    : STD_LOGIC := '0';
   SIGNAL ce_100Hz               : STD_LOGIC;
   SIGNAL cnt_enable             : STD_LOGIC := '0';
-  SIGNAL disp_enable            : STD_LOGIC := '0';
   SIGNAL cnt_reset              : STD_LOGIC := '0';
   SIGNAL cnt_0                  : STD_LOGIC_VECTOR( 3 DOWNTO 0);
   SIGNAL cnt_1                  : STD_LOGIC_VECTOR( 3 DOWNTO 0);
@@ -71,7 +70,6 @@ BEGIN
     CLK                         => clk,
     CE_100HZ                    => ce_100hz,
     CNT_ENABLE                  => cnt_enable,
-    DISP_ENABLE                 => disp_enable,
     CNT_RESET                   => cnt_reset,
     CNT_0                       => cnt_0,
     CNT_1                       => cnt_1,
@@ -97,7 +95,6 @@ BEGIN
   proc_stim : PROCESS
   BEGIN
     cnt_enable  <= '0';
-    disp_enable <= '0';
     cnt_reset   <= '0';
     ------------------------------------------------------------------------------
     -- reset of the counter
@@ -112,21 +109,15 @@ BEGIN
 
     wait for clk_period*10;
     cnt_enable <= '1';
-    disp_enable <= '1';
 
     wait for clk_period*200;
-
-
-
-
-
-
-
 
     ------------------------------------------------------------------------------
     -- end of simulation
     ------------------------------------------------------------------------------
-    WAIT FOR clk_period * 5;
+    WAIT UNTIL unsigned(cnt_3) = 4;
+    wait until unsigned(cnt_3) = 0;
+    wait for clk_period*200;
     simulation_finished <= TRUE;
     WAIT;
   END PROCESS;
