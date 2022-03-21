@@ -2,26 +2,12 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 ----------------------------------------------------------------------------------
-entity ce_gen_tb is
-end ce_gen_tb;
+entity CE_GEN_TB is
+end entity;
 ----------------------------------------------------------------------------------
-architecture Behavioral of ce_gen_tb is
+architecture BEHAVIORAL of CE_GEN_TB is
 ----------------------------------------------------------------------------------
 
-  COMPONENT ce_gen
-  GENERIC (
-    DIV_FACT                    : POSITIVE := 2       -- clock division factor
-  );
-  PORT (
-    CLK                         : IN  STD_LOGIC;      -- clock signal
-    SRST                        : IN  STD_LOGIC;      -- synchronous reset
-    CE_IN                       : IN  STD_LOGIC;      -- input clock enable
-    CE_OUT                      : OUT STD_LOGIC       -- clock enable output
-  );
-  END COMPONENT ce_gen;
-
-  --------------------------------------------------------------------------------
-    
   CONSTANT clk_period           : TIME := 20 ns;
 
   SIGNAL simulation_finished    : BOOLEAN := FALSE;
@@ -45,7 +31,7 @@ BEGIN
 
   --------------------------------------------------------------------------------
 
-  ce_gen_i : ce_gen
+  ce_gen_i : entity work.CE_GEN
   GENERIC MAP(
     DIV_FACT                    => 10
   )
@@ -74,5 +60,5 @@ BEGIN
   END PROCESS;
 
 ----------------------------------------------------------------------------------
-end Behavioral;
+end architecture;
 ----------------------------------------------------------------------------------

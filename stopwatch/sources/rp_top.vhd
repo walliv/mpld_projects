@@ -3,7 +3,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use ieee.numeric_std.all;
 ----------------------------------------------------------------------------------
-entity rp_top is
+entity RP_TOP is
     port(
         CLK        : in  std_logic;
         BTN_I      : in  std_logic_vector (3 downto 0);
@@ -14,7 +14,7 @@ entity rp_top is
         );
 end entity;
 ----------------------------------------------------------------------------------
-architecture Structural of rp_top is
+architecture STRUCTURAL of RP_TOP is
 ----------------------------------------------------------------------------------
 
     component seg_disp_driver
@@ -29,7 +29,7 @@ architecture Structural of rp_top is
             disp_seg_o : out std_logic_vector (7 downto 0);
             disp_dig_o : out std_logic_vector (4 downto 0)
             );
-    end component seg_disp_driver;
+    end component;
 
     ------------------------------------------------------------------------------
 

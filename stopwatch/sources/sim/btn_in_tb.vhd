@@ -2,42 +2,11 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 ----------------------------------------------------------------------------------
-entity btn_in_tb is
-end btn_in_tb;
+entity BTN_IN_TB is
+end entity;
 ----------------------------------------------------------------------------------
-architecture Behavioral of btn_in_tb is
+architecture BEHAVIORAL of BTN_IN_TB is
 ----------------------------------------------------------------------------------
-
-  COMPONENT BTN_MGMT
-  GENERIC(
-    DEB_PERIOD                  : POSITIVE := 3
-  );
-  PORT(
-    clk                         : IN  STD_LOGIC;
-    ce                          : IN  STD_LOGIC;
-    btn_in                      : IN  STD_LOGIC;
-    btn_debounced               : OUT STD_LOGIC;
-    btn_edge_pos                : OUT STD_LOGIC;
-    btn_edge_neg                : OUT STD_LOGIC;
-    btn_edge_any                : OUT STD_LOGIC
-  );
-  END COMPONENT;
-
-  --------------------------------------------------------------------------------
-
-  COMPONENT ce_gen
-  GENERIC (
-    DIV_FACT                    : POSITIVE := 2       -- clock division factor
-  );
-  PORT (
-    CLK                         : IN  STD_LOGIC;      -- clock signal
-    SRST                        : IN  STD_LOGIC;      -- synchronous reset
-    CE_IN                       : IN  STD_LOGIC;      -- input clock enable
-    CE_OUT                      : OUT STD_LOGIC       -- clock enable output
-  );
-  END COMPONENT ce_gen;
-
-  --------------------------------------------------------------------------------
 
   CONSTANT clk_period           : TIME := 20 ns;
 
@@ -65,7 +34,7 @@ BEGIN
 
   --------------------------------------------------------------------------------
 
-  ce_gen_i : ce_gen
+  ce_gen_i : entity work.CE_GEN
   GENERIC MAP(
     DIV_FACT                    => 5
   )
@@ -78,7 +47,7 @@ BEGIN
 
   --------------------------------------------------------------------------------
 
-  btn_in_i : BTN_MGMT
+  btn_in_i : entity work.BTN_MGMT
   GENERIC MAP(
     DEB_PERIOD                  => 5
   )
@@ -122,5 +91,5 @@ BEGIN
   END PROCESS;
 
 ----------------------------------------------------------------------------------
-end Behavioral;
+end architecture;
 ----------------------------------------------------------------------------------

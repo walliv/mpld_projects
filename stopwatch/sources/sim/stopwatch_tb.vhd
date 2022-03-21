@@ -3,40 +3,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 ----------------------------------------------------------------------------------
-entity stopwatch_tb is
-end stopwatch_tb;
+entity STOPWATCH_TB is
+end entity;
 ----------------------------------------------------------------------------------
-architecture Behavioral of stopwatch_tb is
+architecture BEHAVIORAL of STOPWATCH_TB is
 ----------------------------------------------------------------------------------
-
-  COMPONENT stopwatch
-  PORT (
-    CLK                         : IN  STD_LOGIC;
-    CE_100HZ                    : IN  STD_LOGIC;
-    CNT_ENABLE                  : IN  STD_LOGIC;
-    CNT_RESET                   : IN  STD_LOGIC;
-    CNT_0                       : OUT STD_LOGIC_VECTOR( 3 DOWNTO 0);
-    CNT_1                       : OUT STD_LOGIC_VECTOR( 3 DOWNTO 0);
-    CNT_2                       : OUT STD_LOGIC_VECTOR( 3 DOWNTO 0);
-    CNT_3                       : OUT STD_LOGIC_VECTOR( 3 DOWNTO 0)
-  );
-  END COMPONENT stopwatch;
-
-  --------------------------------------------------------------------------------
-
-  COMPONENT ce_gen
-  GENERIC (
-    DIV_FACT                    : POSITIVE := 2       -- clock division factor
-  );
-  PORT (
-    CLK                         : IN  STD_LOGIC;      -- clock signal
-    SRST                        : IN  STD_LOGIC;      -- synchronous reset
-    CE_IN                       : IN  STD_LOGIC;      -- input clock enable
-    CE_OUT                      : OUT STD_LOGIC       -- clock enable output
-  );
-  END COMPONENT ce_gen;
-
-  --------------------------------------------------------------------------------
 
   CONSTANT clk_period           : TIME := 20 ns;
 
@@ -65,7 +36,7 @@ BEGIN
 
   --------------------------------------------------------------------------------
 
-  stopwatch_i : stopwatch
+  stopwatch_i : entity work.STOPWATCH
   PORT MAP(
     CLK                         => clk,
     CE_100HZ                    => ce_100hz,
@@ -79,7 +50,7 @@ BEGIN
 
   --------------------------------------------------------------------------------
 
-  ce_gen_i : ce_gen
+  ce_gen_i : entity work.CE_GEN
   GENERIC MAP(
     DIV_FACT                    => 10
   )
@@ -123,5 +94,5 @@ BEGIN
   END PROCESS;
 
 ----------------------------------------------------------------------------------
-end Behavioral;
+end architecture;
 ----------------------------------------------------------------------------------
