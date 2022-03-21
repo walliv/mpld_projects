@@ -87,14 +87,7 @@ begin
     display_enable_p : process (CLK) is
     begin
         if (rising_edge(CLK)) then
-            if (cnt_reset = '1') then
-
-                cnt_0_seg <= (others => '0');
-                cnt_1_seg <= (others => '0');
-                cnt_2_seg <= (others => '0');
-                cnt_3_seg <= (others => '0');
-
-            elsif (disp_enable = '1') then
+            if (disp_enable = '1') then
 
                 cnt_0_seg <= cnt_0;
                 cnt_1_seg <= cnt_1;
