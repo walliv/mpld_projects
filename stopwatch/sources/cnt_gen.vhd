@@ -63,7 +63,7 @@ begin
         end process;
     end generate;
 
-    OVF <= '1' when (cnt_int = MAX_VAL) else '0';
+    OVF     <= '1' when (cnt_int = MAX_VAL) else '0';
     CNT_OUT <= std_logic_vector(cnt_int);
 
 end architecture;
