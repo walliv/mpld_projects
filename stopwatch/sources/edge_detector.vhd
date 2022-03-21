@@ -37,7 +37,7 @@ begin
 
     EDGE_POS <= edge_pos_int;
     EDGE_NEG <= edge_neg_int;
-    EDGE_ANY <= edge_pos_int and edge_neg_int;
+    EDGE_ANY <= edge_pos_int or edge_neg_int;
 
 
 
