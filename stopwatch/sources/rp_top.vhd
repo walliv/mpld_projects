@@ -108,7 +108,7 @@ begin
             DIV_FACT => 500000)
         port map (
             CLK    => CLK,
-            SRST   => SW_I(0),
+            SRST   => '0',
             CE_IN  => '1',
             CE_OUT => ce_100hz);
 
@@ -124,8 +124,8 @@ begin
             CE            => ce_100hz,
             BTN_IN        => BTN_I(3),
             BTN_DEBOUNCED => open,
-            BTN_EDGE_POS  => btn_start,
-            BTN_EDGE_NEG  => open,
+            BTN_EDGE_POS  => open,
+            BTN_EDGE_NEG  => btn_start,
             BTN_EDGE_ANY  => open);
 
     btn_lap_mgmt_i : entity work.BTN_MGMT
@@ -136,8 +136,8 @@ begin
             CE            => ce_100hz,
             BTN_IN        => BTN_I(0),
             BTN_DEBOUNCED => open,
-            BTN_EDGE_POS  => btn_lap,
-            BTN_EDGE_NEG  => open,
+            BTN_EDGE_POS  => open,
+            BTN_EDGE_NEG  => btn_lap,
             BTN_EDGE_ANY  => open);
 
     --------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ begin
     stopwatch_i : entity work.STOPWATCH
         port map (
             CLK         => CLK,
-            RST         => SW_I(0),
+            RST         => '0',
             CE_100HZ    => ce_100hz,
             CNT_ENABLE  => cnt_enable,
             CNT_RESET   => cnt_reset,
@@ -161,7 +161,7 @@ begin
     stopwatch_fsm_i : entity work.STOPWATCH_FSM
         port map (
             CLK         => CLK,
-            RST         => SW_I(0),
+            RST         => '0',
             BTN_START   => btn_start,
             BTN_LAP     => btn_lap,
             CNT_RESET   => cnt_reset,
