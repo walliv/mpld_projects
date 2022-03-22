@@ -27,41 +27,24 @@ architecture FULL of CNT_GEN is
 
 begin
 
-    mx_val_g : if ((MAX_VAL = 0) or (MAX_VAL >= (2**LENGTH -1))) generate
+    cnt_p : process (CLK) is
+    begin
+        if (rising_edge(CLK)) then
 
-        cnt_p : process (CLK) is
-        begin
-            if (rising_edge(CLK)) then
+            if (RST = '1') then
+                cnt_int <= (others => '0');
+            elsif (EN = '1') then
 
-                if (RST = '1') then
+                -- resets counter when MAX_VAL has been reached
+                if (cnt_int >= MAX_VAL) then
                     cnt_int <= (others => '0');
-                elsif (EN = '1') then
+                else
                     cnt_int <= cnt_int + 1;
                 end if;
+
             end if;
-        end process;
-
-    else generate
-
-        cnt_p : process (CLK) is
-        begin
-            if (rising_edge(CLK)) then
-
-                if (RST = '1') then
-                    cnt_int <= (others => '0');
-                elsif (EN = '1') then
-
-                    -- resets counter when MAX_VAL has been reached
-                    if (cnt_int = MAX_VAL) then
-                        cnt_int <= (others => '0');
-                    else
-                        cnt_int <= cnt_int + 1;
-                    end if;
-
-                end if;
-            end if;
-        end process;
-    end generate;
+        end if;
+    end process;
 
     OVF     <= '1' when (cnt_int = MAX_VAL) else '0';
     CNT_OUT <= std_logic_vector(cnt_int);
