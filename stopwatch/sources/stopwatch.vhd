@@ -28,7 +28,7 @@ begin
 
     sec_decimals_i : entity work.CNT_GEN
         generic map(
-            MAX_VAL => 4,
+            MAX_VAL => 5,
             LENGTH  => 4
         )
         port map(
