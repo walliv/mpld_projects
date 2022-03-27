@@ -35,7 +35,7 @@ architecture BEHAVIORAL of UART_TX_BLOCK_TB is
 
     ----------------------------------------------------------------------------------------------------------
 
-    constant clk_period : time      := 20 NS;
+    constant CLK_PERIOD : time      := 20 NS;
     signal clk          : std_logic := '0';
 
     -- UUT inputs
@@ -56,9 +56,9 @@ begin
     clk_gen : process
     begin
         clk <= '0';
-        wait for clk_period/2;
+        wait for CLK_PERIOD/2;
         clk <= '1';
-        wait for clk_period/2;
+        wait for CLK_PERIOD/2;
     end process;
 
     ----------------------------------------------------------------------------------------------------------
@@ -66,12 +66,12 @@ begin
     -- UART_Tx_block
     uart_tx_block_i : UART_TX_BLOCK
         port map(
-            clk              => CLK,
-            UART_Tx_start    => UART_Tx_start,
-            UART_clk_EN      => UART_clk_EN,
-            UART_Data_In     => UART_Data_In,
-            UART_Tx_Data_out => UART_Tx_Data_out,
-            UART_Tx_busy     => UART_Tx_busy
+            CLK              => clk,
+            UART_TX_START    => uart_tx_start,
+            UART_CLK_EN      => uart_clk_en,
+            UART_DATA_IN     => uart_data_in,
+            UART_TX_DATA_OUT => uart_tx_data_out,
+            UART_TX_BUSY     => uart_tx_busy
             );
 
     ----------------------------------------------------------------------------------------------------------
@@ -82,10 +82,10 @@ begin
             DIV_FACT => 20
             )
         port map(
-            clk  => CLK,
-            srst => '0',
-            ce   => '1',
-            ce_o => UART_clk_EN
+            CLK  => clk,
+            SRST => '0',
+            CE   => '1',
+            CE_O => uart_clk_en
             );
 
     ----------------------------------------------------------------------------------------------------------
@@ -93,18 +93,26 @@ begin
     stim_p : process
     begin
 
-        UART_Data_In  <= X"00";
-        UART_Tx_start <= '0';
-        wait for clk_period * 300;
+        uart_data_in  <= X"00";
+        uart_tx_start <= '0';
+        wait for CLK_PERIOD * 300;
 
+        uart_data_in <= x"69";
+        uart_tx_start <= '1';
+        wait for CLK_PERIOD;
+        uart_tx_start <= '0';
+
+        wait for CLK_PERIOD*2;
+        wait until uart_tx_busy = '0';
 
 
         report "================================================================" severity NOTE;
         report "Simulation finished!" severity NOTE;
         report "================================================================" severity FAILURE;
+        wait;
     end process;
 
 ---------------------------------------------------------------------------------
-end Behavioral;
+end architecture;
 ---------------------------------------------------------------------------------
 

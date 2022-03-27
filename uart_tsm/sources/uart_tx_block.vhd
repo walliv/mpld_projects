@@ -17,9 +17,14 @@ end entity;
 architecture FULL of UART_TX_BLOCK is
 ----------------------------------------------------------------------------------
 
-    type uart_tx_state_type is (IDLE, WAIT_EN, ST_START_B, ST_STOP_0);
-    signal swch_pst : swch_state_type := IDLE;
-    signal swch_nst : swch_state_type := IDLE;
+    type uart_tx_state_type is (IDLE, ST_DATA);
+    signal uart_tx_pst : uart_tx_state_type := IDLE;
+    signal uart_tx_nst : uart_tx_state_type := IDLE;
+
+    signal data_load_pst : std_logic_vector((UART_DATA_IN'high + 2) downto 0) := (others => '1');
+    signal data_load_nst : std_logic_vector((UART_DATA_IN'high + 2) downto 0) := (others => '1');
+    signal data_cntr_pst : unsigned(4 downto 0)                               := (others => '0');
+    signal data_cntr_nst : unsigned(4 downto 0)                               := (others => '0');
 
 ----------------------------------------------------------------------------------
 begin
@@ -28,37 +33,55 @@ begin
     uart_tx_fsm_pst_r : process(clk)
     begin
         if (rising_edge(clk)) then
-            swch_pst <= swch_nst;
+            uart_tx_pst <= uart_tx_nst;
+
+            data_load_pst <= data_load_nst;
+            data_cntr_pst <= data_cntr_nst;
         end if;
     end process;
 
     uart_nst_logic : process (all)
     begin
-        case swch_pst is
+
+        uart_tx_nst   <= uart_tx_pst;
+        data_load_nst <= data_load_pst;
+        data_cntr_nst <= data_cntr_pst;
+
+        UART_TX_BUSY <= '0';
+
+        case uart_tx_pst is
             when IDLE =>
 
                 if (UART_TX_START = '1') then
-                    swch_nst     <= WAIT_EN;
+
+                    uart_tx_nst   <= ST_DATA;
+                    data_load_nst <= UART_DATA_IN & "01";
+                    data_cntr_nst <= (others => '0');
+
                     UART_TX_BUSY <= '1';
+
                 end if;
 
-            when WAIT_EN =>
+            when ST_DATA =>
+
+                UART_TX_BUSY <= '1';
 
                 if (UART_CLK_EN = '1') then
 
+                    data_load_nst <= '1' & data_load_pst(9 downto 1);
+                    data_cntr_nst <= data_cntr_pst + 1;
 
+                    if (data_cntr_pst >= 10) then
+                        uart_tx_nst <= IDLE;
+                    end if;
 
                 end if;
-
-            when ST_START_B =>
-
-            when ST_STOP_0 =>
 
         end case;
 
     end process;
 
-
+    UART_TX_DATA_OUT <= data_load_pst(0);
 
 ----------------------------------------------------------------------------------
 end architecture;
