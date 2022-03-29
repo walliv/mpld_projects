@@ -59,7 +59,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports clk]
 create_clock -period 20.000 -name clk -waveform {0.000 10.000} [get_ports clk]
 set_input_jitter clk 0.100
 
-
+# USB UART interface
+set_property PACKAGE_PIN G17 [get_ports uart_tx_data]
+set_property IOSTANDARD LVCMOS33 [get_ports uart_tx_data]
 
 # set_switching_activity -toggle_rate 0.000 -static_probability 1.000 [get_nets {ce_gen_i/E[0]}]
 # set_switching_activity -toggle_rate 0.500 -static_probability 0.500 [get_nets {ce_gen_i/E[0]}]

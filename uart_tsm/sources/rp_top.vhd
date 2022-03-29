@@ -9,7 +9,8 @@ ENTITY rp_top IS
     sw_i            : IN  STD_LOGIC_VECTOR (3 DOWNTO 0);
     led_o           : OUT STD_LOGIC_VECTOR (7 DOWNTO 0);
     disp_seg_o      : OUT STD_LOGIC_VECTOR (7 DOWNTO 0);
-    disp_dig_o      : OUT STD_LOGIC_VECTOR (4 DOWNTO 0)
+    disp_dig_o      : OUT STD_LOGIC_VECTOR (4 DOWNTO 0);
+    uart_tx_data    : OUT STD_LOGIC
   );
 END rp_top;
 ----------------------------------------------------------------------------------
@@ -58,12 +59,14 @@ ARCHITECTURE Structural OF rp_top IS
 
   --------------------------------------------------------------------------------
 
-  SIGNAL clk_en_100Hz       : STD_LOGIC;
+    SIGNAL clk_en_100Hz       : STD_LOGIC;
+    signal clk_en_uart : std_logic;
 
-  SIGNAL btn_deb_o          : STD_LOGIC_VECTOR( 3 DOWNTO 0);
-  SIGNAL btn_posedge_o      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
-  SIGNAL btn_negedge_o      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
-  SIGNAL btn_edge_o         : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+    SIGNAL btn_deb_o          : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+    SIGNAL btn_posedge_o      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+    SIGNAL btn_negedge_o      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+    SIGNAL btn_edge_o         : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+    signal uart_data_in : std_logic_vector(7 downto 0);
 
 ----------------------------------------------------------------------------------
 BEGIN
@@ -124,6 +127,33 @@ BEGIN
     dots_i              => "011",
     disp_seg_o          => disp_seg_o,
     disp_dig_o          => disp_dig_o);
+    
+
+----------------------------------------------------------------------------------
+-- UART transmitter driver
+----------------------------------------------------------------------------------
+
+clk_gen_uart_i : entity work.clk_gen_uart
+generic map(
+    FREQ_CLK    => 50000000,
+    UART_SPEED  => 115200
+)
+port map(
+    clk         => clk,
+    clk_en_uart => clk_en_uart
+);
+
+uart_tsm_i : entity work.UART_TX_BLOCK
+port map(
+    CLK                 => clk,
+    UART_TX_START       => btn_negedge_o(0),
+    UART_CLK_EN         => clk_en_uart,
+    UART_DATA_IN        => uart_data_in,
+    UART_TX_BUSY        => open,
+    UART_TX_DATA_OUT    => uart_tx_data
+);
+
+uart_data_in <= x"3" & sw_i;
 
 ----------------------------------------------------------------------------------
 END Structural;
