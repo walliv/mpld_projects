@@ -61,7 +61,7 @@ BEGIN
 
     fade_cntr_ce_i : ce_gen
     GENERIC MAP(
-        DIV_FACT            => 5000000)
+        DIV_FACT            => 3000000)
     PORT MAP(
         clk                 => clk,
         srst                => '0',
@@ -72,7 +72,7 @@ BEGIN
     generic map (
         MAX_VAL     => 255,
         LENGTH      => 8,
-        INC_VAL     => 8
+        INC_VAL     => 16
     )
     port map(
         CLK     => clk,
