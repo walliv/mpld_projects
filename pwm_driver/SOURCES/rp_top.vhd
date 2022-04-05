@@ -58,19 +58,28 @@ ARCHITECTURE Structural OF rp_top IS
 
   --------------------------------------------------------------------------------
 
-  SIGNAL clk_en_100Hz       : STD_LOGIC;
-  SIGNAL ce_fade            : STD_LOGIC;
-  SIGNAL ce_sh_reg            : STD_LOGIC;
+SIGNAL clk_en_100Hz       : STD_LOGIC;
 
-  SIGNAL btn_deb_o          : STD_LOGIC_VECTOR( 3 DOWNTO 0);
-  SIGNAL btn_posedge_o      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
-  SIGNAL btn_negedge_o      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
-  SIGNAL btn_edge_o         : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+SIGNAL btn_deb_o          : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+SIGNAL btn_posedge_o      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+SIGNAL btn_negedge_o      : STD_LOGIC_VECTOR( 3 DOWNTO 0);
+SIGNAL btn_edge_o         : STD_LOGIC_VECTOR( 3 DOWNTO 0);
 
-  signal fade_cntr : std_logic_vector(7 downto 0);
-  type fade_sh_reg_type is array (7 downto 0) of std_logic_vector(7 downto 0);
-  signal fade_sh_reg : fade_sh_reg_type := (others => (others => '0'));
+signal pwm_ref_0 : std_logic_vector(7 downto 0);
+signal pwm_ref_1 : std_logic_vector(7 downto 0);
+signal pwm_ref_2 : std_logic_vector(7 downto 0);
+signal pwm_ref_3 : std_logic_vector(7 downto 0);
+signal pwm_ref_4 : std_logic_vector(7 downto 0);
+signal pwm_ref_5 : std_logic_vector(7 downto 0);
+signal pwm_ref_6 : std_logic_vector(7 downto 0);
+signal pwm_ref_7 : std_logic_vector(7 downto 0);
+signal pwm_cntr : std_logic_vector(7 downto 0);
+signal pwm_out : std_logic_vector(7 downto 0);
 
+signal seg_dig_1 : std_logic_vector(3 downto 0);
+signal seg_dig_2 : std_logic_vector(3 downto 0);
+signal seg_dig_3 : std_logic_vector(3 downto 0);
+signal seg_dig_4 : std_logic_vector(3 downto 0);
 ----------------------------------------------------------------------------------
 BEGIN
 ----------------------------------------------------------------------------------
@@ -120,10 +129,10 @@ BEGIN
   seg_disp_driver_i : seg_disp_driver
   PORT MAP(
     clk                 => clk,
-    dig_1_i             => "0000",
-    dig_2_i             => "0000",
-    dig_3_i             => "0000",
-    dig_4_i             => "0000",
+    dig_1_i             => seg_dig_1,
+    dig_2_i             => seg_dig_2,
+    dig_3_i             => seg_dig_3,
+    dig_4_i             => seg_dig_4,
     dp_i                => "0000",
     dots_i              => "011",
     disp_seg_o          => disp_seg_o,
@@ -135,61 +144,50 @@ BEGIN
 -- PWM driver
 ----------------------------------------------------------------------------------
 
-    fade_cntr_ce_i : ce_gen
-    GENERIC MAP(
-        DIV_FACT            => 500000)
-    PORT MAP(
-        clk                 => clk,
-        srst                => '0',
-        ce                  => '1',
-        ce_o                => ce_fade);
-
-    fade_cntr_i : entity work.CNT_GEN
-    generic map (
-        MAX_VAL     => 255,
-        LENGTH      => 8
-    )
-    port map(
-        CLK     => clk,
-        RST     => '0',
-        EN      => ce_fade,
-        CNT_OUT => fade_cntr,
-        OVF     => open
-    );
-
-    sh_reg_ce_i : ce_gen
-    GENERIC MAP(
-        DIV_FACT            => 250000)
-    PORT MAP(
-        clk                 => clk,
-        srst                => '0',
-        ce                  => '1',
-        ce_o                => ce_sh_reg);
-
-    fade_sh_reg_p : process (CLK)
-    begin
-        if (rising_edge(CLK)) then
-            if (ce_sh_reg = '1') then
-                fade_sh_reg <= fade_sh_reg(6 downto 0) & fade_cntr;
-            end if;
-        end if;
-    end process;
-
     pwm_driver_i : entity work.pwm_driver
     port map(
         CLK => clk,
-        PWM_REF_0 => fade_sh_reg(0),
-        PWM_REF_1 => fade_sh_reg(1),
-        PWM_REF_2 => fade_sh_reg(2),
-        PWM_REF_3 => fade_sh_reg(3),
-        PWM_REF_4 => fade_sh_reg(4),
-        PWM_REF_5 => fade_sh_reg(5),
-        PWM_REF_6 => fade_sh_reg(6),
-        PWM_REF_7 => fade_sh_reg(7),
-        PWM_OUT => led_o,
-        CNT_OUT => open
+        PWM_REF_0 => pwm_ref_0,
+        PWM_REF_1 => pwm_ref_1,
+        PWM_REF_2 => pwm_ref_2,
+        PWM_REF_3 => pwm_ref_3,
+        PWM_REF_4 => pwm_ref_4,
+        PWM_REF_5 => pwm_ref_5,
+        PWM_REF_6 => pwm_ref_6,
+        PWM_REF_7 => pwm_ref_7,
+        PWM_OUT => pwm_out,
+        CNT_OUT => pwm_cntr
     );
 
+    led_o <= pwm_out;
+    
+    pwm_vio_i : entity work.pwm_vio_1
+    port map (
+        clk => clk,
+        probe_in0 => pwm_out,
+        probe_in1 => pwm_cntr,
+        probe_out0 => pwm_ref_0,
+        probe_out1 => pwm_ref_1,
+        probe_out2 => pwm_ref_2,
+        probe_out3 => pwm_ref_3,
+        probe_out4 => pwm_ref_4,
+        probe_out5 => pwm_ref_5,
+        probe_out6 => pwm_ref_6,
+        probe_out7 => pwm_ref_7,
+        probe_out8 => seg_dig_1,
+        probe_out9 => seg_dig_2,
+        probe_out10 => seg_dig_3,
+        probe_out11 => seg_dig_4
+    );
+
+    pwm_ila_i : entity work.pwm_ila_1
+    port map(
+        clk => clk,
+        probe0 => pwm_out,
+        probe1 => pwm_cntr,
+        probe2 => btn_i,
+        probe3 => sw_i
+    );
 ----------------------------------------------------------------------------------
 END Structural;
 ----------------------------------------------------------------------------------
