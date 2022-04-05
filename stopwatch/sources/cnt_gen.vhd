@@ -24,7 +24,6 @@ architecture FULL of CNT_GEN is
     constant OVF_VAL : unsigned(LENGTH-1 downto 0) := (others => '1');
     constant NUL_VAL : unsigned(LENGTH-1 downto 0) := (others => '0');
 
-    signal cnt_dir : std_logic := '1';
     signal cnt_int : unsigned(LENGTH-1 downto 0) := (others => '0');
 
 begin
@@ -37,30 +36,12 @@ begin
                 cnt_int <= (others => '0');
             elsif (EN = '1') then
 
-                if (cnt_dir = '1') then
-
-                    if (cnt_int >= MAX_VAL) then
-                        cnt_dir <= '0';
-                    else
-                        cnt_int <= cnt_int + 1;
-                    end if;
-
-                elsif (cnt_dir = '0') then
-
-                    if (cnt_int = NUL_VAL) then
-                        cnt_dir <= '1';
-                    else
-                        cnt_int <= cnt_int - 1;
-                    end if;
-                    
-                end if ;
-
                 -- resets counter when MAX_VAL has been reached
-                -- if (cnt_int >= MAX_VAL) then
-                --     cnt_int <= (others => '0');
-                -- else
-                --     cnt_int <= cnt_int + 1;
-                -- end if;
+                if (cnt_int >= MAX_VAL) then
+                    cnt_int <= (others => '0');
+                else
+                    cnt_int <= cnt_int + 1;
+                end if;
 
             end if;
         end if;
