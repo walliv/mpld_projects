@@ -41,7 +41,7 @@ begin
 
                 if (cnt_dir = '1') then
 
-                    if (cnt_int >= MAX_VAL) then
+                    if (cnt_int >= (MAX_VAL - INC_VAL)) then
                         cnt_dir <= '0';
                     else
                         cnt_int <= cnt_int + INC_VAL;
@@ -49,7 +49,7 @@ begin
 
                 elsif (cnt_dir = '0') then
 
-                    if (cnt_int = NUL_VAL) then
+                    if (cnt_int <= (NUL_VAL + INC_VAL)) then
                         cnt_dir <= '1';
                     else
                         cnt_int <= cnt_int - INC_VAL;
