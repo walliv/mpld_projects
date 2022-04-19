@@ -1,0 +1,88 @@
+                    ;==============================================================================;
+                    ;
+                    ; Michal Kubicek (michal.kubicek@email.cz)
+                    ;
+                    ;==============================================================================;
+                    ;   __  __       _
+                    ;  |  \/  |     (_)
+                    ;  | \  / | __ _ _ _ __
+                    ;  | |\/| |/ _` | | '_ \
+                    ;  | |  | | (_| | | | | |
+                    ;  |_|  |_|\__,_|_|_| |_|
+                    ;
+                    ;
+                    ;
+                    ;==============================================================================;
+                    ; Startup and workaround for "Vivado Hardware Manager" problem
+                    ;==============================================================================;
+                    ;
+                    JUMP    cold_start                  ; Avoid address 003 on start up
+                    JUMP    cold_start
+                    JUMP    cold_start
+                    JUMP    cold_start                  ; Address 003
+                    ;
+        cold_start: ; simple 7-segment display text
+                    LOAD    s0, 0D
+                    OUTPUT  s0, ID_7SEG_DIG_1
+                    LOAD    s0, 0E
+                    OUTPUT  s0, ID_7SEG_DIG_2
+                    LOAD    s0, 0A
+                    OUTPUT  s0, ID_7SEG_DIG_3
+                    LOAD    s0, 0D
+                    OUTPUT  s0, ID_7SEG_DIG_4
+                    ;
+                    LOAD    s0, 01
+                    OUTPUT  s0, ID_PWM_REF_0
+                    LOAD    s0, 09
+                    OUTPUT  s0, ID_PWM_REF_1
+                    LOAD    s0, 13
+                    OUTPUT  s0, ID_PWM_REF_2
+                    LOAD    s0, 25
+                    OUTPUT  s0, ID_PWM_REF_3
+                    LOAD    s0, 4D
+                    OUTPUT  s0, ID_PWM_REF_4
+                    LOAD    s0, 77
+                    OUTPUT  s0, ID_PWM_REF_5
+                    LOAD    s0, 9F
+                    OUTPUT  s0, ID_PWM_REF_6
+                    LOAD    s0, FF
+                    OUTPUT  s0, ID_PWM_REF_7
+                    ;
+                    ;
+                    ;
+                    ;==============================================================================;
+                    ; Main program loop
+                    ;==============================================================================;
+                    ;
+         main_loop: CALL    wait_100ms
+                    ;
+                    ; read status of buttons and switches and forward it to LEDs
+                    INPUT   s0, ID_BTN                  ; read state of buttons
+                    SL0     s0                          ; 4x shift left
+                    SL0     s0
+                    SL0     s0
+                    SL0     s0
+                    INPUT   s1, ID_SW                   ; read state of switches
+                    OR      s1, s0                      ; merge 4 BTN and 4 SW to one byte (s1)
+                    OUTPUT  s1, ID_LED                  ; lit LED on/off according to SW and BTN
+                    ;
+                    ;
+                    JUMP    main_loop
+                    ;
+                    ;==============================================================================;
+                    ; Include other source files
+                    ;==============================================================================;
+                    ;
+                    INCLUDE "prog_ROM_addr.psm"
+                    INCLUDE "prog_ROM_delay.psm"
+                    INCLUDE "prog_ROM_IRQ.psm"
+                    ;
+                    ;
+                    ;==============================================================================;
+                    ; Interrupt jump instruction
+                    ;==============================================================================;
+                    ;
+                    ADDRESS FFF                         ; interrupt
+                    JUMP    IntService                  ; jump to interrupt subroutine address
+                    ;
+                    ;==============================================================================;

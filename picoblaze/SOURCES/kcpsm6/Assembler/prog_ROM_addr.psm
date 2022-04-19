@@ -1,0 +1,37 @@
+                    ;==============================================================================;
+                    ;
+                    ; Michal Kubicek (michal.kubicek@email.cz)
+                    ;
+                    ;==============================================================================;
+                    ;               _     _
+                    ;      /\      | |   | |
+                    ;     /  \   __| | __| |_ __ ___  ___ ___   ___ _ __   __ _  ___ ___
+                    ;    / /\ \ / _` |/ _` | '__/ _ \/ __/ __| / __| '_ \ / _` |/ __/ _ \
+                    ;   / ____ \ (_| | (_| | | |  __/\__ \__ \ \__ \ |_) | (_| | (_|  __/
+                    ;  /_/    \_\__,_|\__,_|_|  \___||___/___/ |___/ .__/ \__,_|\___\___|
+                    ;                                              | |
+                    ;                                              |_|
+                    ;
+                    ;==============================================================================;
+                    ; 
+                    CONSTANT ID_BTN                         , 00
+                    CONSTANT ID_SW                          , 01
+                    CONSTANT ID_LED                         , 02
+                    CONSTANT ID_7SEG_DIG_1                  , 03
+                    CONSTANT ID_7SEG_DIG_2                  , 04
+                    CONSTANT ID_7SEG_DIG_3                  , 05
+                    CONSTANT ID_7SEG_DIG_4                  , 06
+                    CONSTANT ID_7SEG_DP                     , 07
+                    CONSTANT ID_7SEG_DOTS                   , 08
+                    ;
+                    CONSTANT ID_PWM_REF_0                   , 09
+                    CONSTANT ID_PWM_REF_1                   , 0A
+                    CONSTANT ID_PWM_REF_2                   , 0B
+                    CONSTANT ID_PWM_REF_3                   , 0C
+                    CONSTANT ID_PWM_REF_4                   , 0D
+                    CONSTANT ID_PWM_REF_5                   , 0E
+                    CONSTANT ID_PWM_REF_6                   , 0F
+                    CONSTANT ID_PWM_REF_7                   , 10
+                    ;
+                    ;
+                    ;==============================================================================;
