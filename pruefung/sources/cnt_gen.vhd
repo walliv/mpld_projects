@@ -30,12 +30,12 @@ begin
 
             if (RST = '1') then
                 cnt_int <= (others => '0');
-            elsif (EN = '1') then
+            else -- if (EN = '1') then
 
                 -- resets counter when MAX_VAL has been reached
                 if (cnt_int >= unsigned(MAX_VAL)) then
                     cnt_int <= (others => '0');
-                else
+                elsif (EN = '1') then
                     cnt_int <= cnt_int + 1;
                 end if;
 

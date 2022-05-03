@@ -76,7 +76,7 @@ begin
 
     ce_gen_i : entity work.CE_GEN
         generic map (
-            DIV_FACT => 10)
+            DIV_FACT => 500000)
         port map (
             CLK    => CLK,
             SRST   => '0',
@@ -90,7 +90,7 @@ begin
         
         btn_mgmt_i : entity work.BTN_MGMT
             generic map (
-                DEB_PERIOD => 2)
+                DEB_PERIOD => 5)
             port map (
                 CLK           => CLK,
                 CE            => ce_100hz,
