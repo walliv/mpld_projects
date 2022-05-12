@@ -3,7 +3,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
 ----------------------------------------------------------------------------------
-entity UART_TX_BLOCK is
+entity MY_UART32 is
     generic (
         DATA_LENGTH : positive := 32
     );
@@ -17,7 +17,7 @@ entity UART_TX_BLOCK is
         );
 end entity;
 ----------------------------------------------------------------------------------
-architecture FULL of UART_TX_BLOCK is
+architecture FULL of MY_UART32 is
 ----------------------------------------------------------------------------------
 
     type uart_tx_state_type is (IDLE, ST_DATA);

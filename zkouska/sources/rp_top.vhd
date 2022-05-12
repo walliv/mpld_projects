@@ -117,7 +117,7 @@ BEGIN
 -- UART transmitter driver
 ----------------------------------------------------------------------------------
 
-uart_tsm_i : entity work.UART_TX_BLOCK
+uart_tsm_i : entity work.MY_UART32
 port map(
     CLK                 => clk,
     UART_TX_START       => '1',

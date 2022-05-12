@@ -3,10 +3,10 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 
 ------------------------------------------------------------------------------------------------------------
-entity UART_Tx_block_tb is
-end UART_Tx_block_tb;
+entity MY_UART32_TB is
+end entity;
 ------------------------------------------------------------------------------------------------------------
-architecture BEHAVIORAL of UART_TX_BLOCK_TB is
+architecture BEHAVIORAL of MY_UART32_TB is
 ------------------------------------------------------------------------------------------------------------
 
     constant DATA_LENGTH : positive := 32;
@@ -41,7 +41,7 @@ begin
     ----------------------------------------------------------------------------------------------------------
 
     -- UART_Tx_block
-    uart_tx_block_i : entity work.UART_TX_BLOCK
+    uart_tx_block_i : entity work.MY_UART32
         generic map(
             DATA_LENGTH => DATA_LENGTH
         )
