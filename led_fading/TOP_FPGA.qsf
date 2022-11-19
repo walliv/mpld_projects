@@ -64,9 +64,9 @@ set_global_assignment -name DEVICE 5CSEMA5F31C6
 # ==============================
 set_global_assignment -name EDA_SIMULATION_TOOL "Questa Intel FPGA (VHDL)"
 set_global_assignment -name EDA_BOARD_DESIGN_TIMING_TOOL "Stamp (Timing)"
-set_global_assignment -name EDA_BOARD_DESIGN_SYMBOL_TOOL "ViewDraw (Symbol)"
-set_global_assignment -name EDA_BOARD_DESIGN_SIGNAL_INTEGRITY_TOOL "HSPICE (Signal Integrity)"
-set_global_assignment -name EDA_BOARD_DESIGN_BOUNDARY_SCAN_TOOL "BSDL (Boundary Scan)"
+set_global_assignment -name EDA_BOARD_DESIGN_SYMBOL_TOOL "<None>"
+set_global_assignment -name EDA_BOARD_DESIGN_SIGNAL_INTEGRITY_TOOL "<None>"
+set_global_assignment -name EDA_BOARD_DESIGN_BOUNDARY_SCAN_TOOL "<None>"
 
 # Power Estimation Assignments
 # ============================
@@ -90,7 +90,7 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulati
 	# EDA Netlist Writer Assignments
 	# ==============================
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_boundary_scan
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT BSDL -section_id eda_board_design_boundary_scan
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT NONE -section_id eda_board_design_boundary_scan
 
 # end EDA_TOOL_SETTINGS(eda_board_design_boundary_scan)
 # -----------------------------------------------------
@@ -112,7 +112,7 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT STAMP -section_id eda_board_d
 	# EDA Netlist Writer Assignments
 	# ==============================
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_symbol
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VIEWDRAW -section_id eda_board_design_symbol
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT NONE -section_id eda_board_design_symbol
 
 # end EDA_TOOL_SETTINGS(eda_board_design_symbol)
 # ----------------------------------------------
@@ -123,7 +123,7 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VIEWDRAW -section_id eda_boar
 	# EDA Netlist Writer Assignments
 	# ==============================
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_signal_integrity
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT HSPICE -section_id eda_board_design_signal_integrity
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT NONE -section_id eda_board_design_signal_integrity
 
 # end EDA_TOOL_SETTINGS(eda_board_design_signal_integrity)
 # --------------------------------------------------------
@@ -299,6 +299,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW_I[7]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW_I[8]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW_I[9]
 
+set_global_assignment -name VHDL_FILE sources/segment_cycle.vhd
 set_global_assignment -name SDC_FILE sources/top_fpga.sdc
 set_global_assignment -name VHDL_FILE sources/top_fpga.vhd -hdl_version VHDL_2008
 set_global_assignment -name VHDL_FILE sources/pwm_driver.vhd -hdl_version VHDL_2008

@@ -140,7 +140,7 @@ begin
 
         cnt_nst_logic_p : process (all) is
         begin
-            if (cnt_pst >= OVF_VAL) then
+            if (cnt_pst >= (OVF_VAL - INC_VAL + 1)) then
                 cnt_nst <= (others => '0');
             else
                 cnt_nst <= cnt_pst + INC_VAL;
